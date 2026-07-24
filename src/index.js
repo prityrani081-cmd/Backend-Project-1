@@ -10,7 +10,19 @@ dotenv.config({
 })
 
 
-connectDB()
+connectDB() 
+//async function এ- mongodb connect হওয়ার পর by-default promise return করে সেটার জন্য .then(), .catch() use করতে হবে।
+
+.then(() =>{
+    app.listen(process.env.PORT || 8000 , () =>{
+            console.log(`Server is running at port : ${process.env.PORT}`);
+            
+        
+    }) //আমাদের application db connect হওয়ার পর listen করা শুরু করেছে।
+})
+.catch((err) =>{
+    console.log("MONGO db connection failed!!! ", err)
+})
 
 
 
