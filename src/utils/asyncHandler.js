@@ -3,11 +3,13 @@
 //explanation: () => {() => {}} arrow fun এর ভিতর আবার arrow fun & code লেখার সময় {} বাদ দেই।
 
 //Promises:
-const asynchandler = (requestHandler) => {
-  (req, res, next) => {
+const asyncHandler = (requestHandler) => {
+  return (req, res, next) => {
     Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
   };
 };
+
+export { asyncHandler };
 
 /*Try-catch:
 const asynchandler = (fn) => async (req, res, next) => {
