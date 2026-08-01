@@ -51,11 +51,10 @@ const userSchema = new Schema(
 );
 
 //Password encrypt
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
 
   this.password = await bcrypt.hash(this.password, 10);
-  //next();
 }); //1. arrow-fun use করা যাবেনা কারন this keyword use করা যায়না,আর আমাদের password এর তথ্য indicate করতে হবে তাই normal-fun use করেছি।
 //2.যেহেতু middleware তাই (next) parameter use করেছি।
 //3. 10 number দ্বারা round সংখ্যা বোঝাচ্ছে।
@@ -76,7 +75,7 @@ userSchema.methods.generateAccessToken = function () {
       username: this.username,
       fullName: this.fullName,
     },
-    process.env.ACCESS_TKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     }
